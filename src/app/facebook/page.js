@@ -95,78 +95,41 @@ export default function FacebookPage() {
 
         {/* Posts Grid */}
         <div className="grid gap-6">
-          {posts.map((post) => (
+        {posts
+          .filter((post) => post.text && post.text.trim())
+          .map((post, index) => (
             <div
-              key={post.id}
+              key={index}
               className="bg-gray-800/50 backdrop-blur-sm border border-gray-700/50 rounded-xl overflow-hidden hover:border-blue-500/50 transition-all duration-300"
             >
               <div className="p-6">
-                <div className="flex items-start justify-between">
+                <div className="flex items-start justify-between gap-4">
                   <h2 className="text-xl font-semibold text-gray-100 flex-1">
-                    {post.message || post.title}
+                    {post.text}
                   </h2>
-                  <a
-                    href={post.url}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    className="ml-4 p-2 rounded-lg bg-gray-700/50 hover:bg-gray-600/50 transition-colors"
-                  >
-                    <ArrowUpRight size={20} />
-                  </a>
+                  {post.postUrl && (
+                    <a
+                      href={post.postUrl}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="flex-shrink-0 p-2 rounded-lg bg-gray-700/50 hover:bg-gray-600/50 transition-colors hover:text-blue-400"
+                      title="Open original post"
+                    >
+                      <ArrowUpRight className="w-5 h-5" />
+                    </a>
+                  )}
                 </div>
 
-                {post.image && (
-                  <img
-                    src={post.image}
-                    alt="Post content"
-                    className="mt-4 rounded-lg w-full object-cover max-h-96"
-                  />
-                )}
-
-                <div className="mt-4 flex items-center space-x-4 text-sm text-gray-400">
-                  <span>Posted on {new Date(post.created_time).toLocaleDateString()}</span>
-                  <div className="flex items-center space-x-1">
-                    <ThumbsUp size={16} />
-                    <span>{post.likes || 0}</span>
-                  </div>
-                  <div className="flex items-center space-x-1">
-                    <Share2 size={16} />
-                    <span>{post.shares || 0}</span>
-                  </div>
-                </div>
-
-                {/* Comments Section */}
-                {post.comments && post.comments.length > 0 && (
-                  <div className="mt-6 space-y-4">
-                    <div className="flex items-center space-x-2 text-gray-300">
-                      <MessageSquare size={18} />
-                      <h3 className="font-medium">Top Comments</h3>
-                    </div>
-                    <div className="space-y-3">
-                      {post.comments.map((comment, index) => (
-                        <div
-                          key={comment.id || index}
-                          className="p-4 bg-gray-700/30 rounded-lg border border-gray-700/50"
-                        >
-                          <p className="text-gray-300 text-sm">{comment.message}</p>
-                          <div className="mt-2 flex items-center justify-between text-xs text-gray-400">
-                            <span>{comment.from?.name || 'Anonymous'}</span>
-                            <div className="flex items-center space-x-2">
-                              <div className="flex items-center space-x-1">
-                                <ThumbsUp size={12} />
-                                <span>{comment.like_count || 0}</span>
-                              </div>
-                            </div>
-                          </div>
-                        </div>
-                      ))}
-                    </div>
+                {post.timestamp && (
+                  <div className="mt-4 flex items-center space-x-4 text-sm text-gray-400">
+                    <time dateTime={post.timestamp}>Posted {post.timestamp}</time>
                   </div>
                 )}
               </div>
             </div>
           ))}
-        </div>
+</div>
+
 
         {/* Loading State */}
         {isLoading && posts.length === 0 && (

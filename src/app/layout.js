@@ -23,7 +23,7 @@ export default function RootLayout({ children }) {
     <html lang="en" className={`${geistSans.variable} ${geistMono.variable}`}>
       <body className="bg-[#0F172A]">
         <nav className="border-b border-gray-700/50 backdrop-blur-sm bg-[#0F172A]/80 text-gray-100 sticky top-0 z-50">
-          <div className="max-w-7xl mx-auto px-4">
+          <div className="max-w-7xl mx-auto md:px-4">
             <div className="flex items-center h-16 justify-between">
               <a 
                 href="/" 
